@@ -1,0 +1,116 @@
+﻿@{
+    ViewData["Title"] = "登入";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="~/css/style.css" />
+    <style>
+        /* Custom CSS */
+        .card {
+            background-color: #dcebee;
+            border: 2px solid #dcebee;
+        }
+
+        .custom-label {
+            color: #427677;
+            font-weight: bold;
+        }
+
+        .custom-button {
+            background-color: #427677;
+            color: white;
+            border: none;
+        }
+
+            .custom-button:hover {
+                background-color: #365c5c;
+            }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-4 text-center">
+                <!-- Header -->
+                <div class="header p-2 rounded" style="background-color: #73bfb8; color: white;">
+                    <h2>就醫開單資訊及提醒系統</h2>
+                </div>
+
+                <!-- Login form -->
+                <div class="card mt-3">
+                    <div class="card-body">
+                        <h4 class="card-title mb-4" style="color: #427677; font-weight: bold;">登入</h4>
+                        <img src="~/images/登入圖示.png" alt="登入圖示" style="width: 80px; height: auto;" class="mb-3" />
+
+                        @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+                        {
+                            <div class="alert alert-danger">@ViewBag.ErrorMessage</div>
+                        }
+
+                        <!-- Form start -->
+                        <div class="form-group">
+                            <label for="PatIdno" class="custom-label">身份證字號</label>
+                            <input type="text" class="form-control" id="PatIdno" name="PatIdno" placeholder="請輸入身份證字號" required>
+                        </div>
+
+                        <div class="form-group mt-3">
+                            <label for="PatPassword" class="custom-label">密碼</label>
+                            <input type="password" class="form-control" id="PatPassword" name="PatPassword" placeholder="請輸入密碼" required>
+                        </div>
+
+                        <button type="button" class="btn custom-button mt-4 login-button" onclick="login()">登入</button>
+                        <br> <!-- 換行 -->
+                        <a href="@Url.Action("Register", "Home")" class="btn btn-link mt-2" style="color: #4F4F4F;">註冊帳號</a>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer with date and time -->
+        <div class="text-center mt-3 text-muted">
+            <p>@DateTime.Now.ToString("yyyy年MM月dd日 dddd HH:mm:ss")</p>
+        </div>
+    </div>
+
+    <!-- Add jQuery for AJAX -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        function login() {
+            var patIdno = document.getElementById("PatIdno").value;
+            var patPassword = document.getElementById("PatPassword").value;
+
+            // Ensure all fields are filled
+            if (!patIdno || !patPassword) {
+                alert("請輸入身份證字號和密碼");
+                return;
+            }
+
+            // Send login request
+            $.ajax({
+                url: '@Url.Action("Login", "Login")',  // Ensure correct controller/action
+                method: 'POST',
+                dataType: 'json',
+                data: {
+                    patIdno: patIdno,
+                    patPassword: patPassword
+                },
+                success: function (response) {
+                    if (response.success) {
+                        alert("登入成功！");
+                        window.location.href = "@Url.Action("FrontPage", "Home")";  // Redirect to Home/FrontPage
+                    } else {
+                        alert(response.error || "登入失敗");
+                    }
+                },
+                error: function (err) {
+                    alert("伺服器錯誤，請稍後再試");
+                }
+            });
+        }
+    </script>
+</body>
+</html>
+

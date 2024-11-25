@@ -1,0 +1,112 @@
+﻿<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+    <style>
+        body {
+            background-color: #f0f8f9;
+        }
+
+        .header {
+            background-color: #73bfb8;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+        }
+
+            .header img {
+                position: absolute;
+                left: 20px;
+                top: 10px;
+                height: 60px;
+            }
+
+        .header-title {
+            margin: 0;
+        }
+
+        .icon-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 50px;
+            flex-wrap: wrap; /* Allow wrapping of icon cards */
+        }
+
+        .icon-card {
+            background-color: #dcebee; /* 設定背景顏色 */
+            border-radius: 10px;
+            width: 250px; /* Increased width */
+            height: 250px; /* Increased height */
+            text-align: center;
+            margin: 20px; /* Increased margin for more space */
+            padding: 30px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+            .icon-card:hover {
+                transform: scale(1.05);
+            }
+
+            .icon-card img {
+                width: 100%;
+                height: auto;
+            }
+
+            .icon-card h4 {
+                color: #427677; /* 設定字體顏色 */
+            }
+
+        .footer {
+            margin-top: 40px;
+            background-color: #f0f8f9;
+            color: gray;
+            text-align: center;
+            padding: 10px 0;
+        }
+
+        .logout-btn {
+            position: absolute; /* 絕對定位 */
+            top: 10px; /* 與頂部的距離 */
+            right: 20px; /* 與右側的距離 */
+        }
+    </style>
+</head>
+<body>
+    <!-- Logout Button in Page's Top-Right Corner -->
+    <a class="logout-btn" href="/Home/Index">
+        <img src="/images/登出圖示.png" alt="登出" style="height: 50px;" /> <!-- Adjust height as needed -->
+    </a>
+
+    <!-- Header -->
+    <div class="header">
+        <h1 class="header-title">輔大醫院-病人就醫開單資訊及提醒系統</h1>
+    </div>
+
+    <!-- Main Icon Section -->
+    <div class="container icon-container">
+        <div class="icon-card" onclick="location.href='/Home/Remind'">
+            <img src="/images/就醫提醒.png" alt="就醫提醒" />
+            <h4>就醫提醒</h4>
+        </div>
+        <div class="icon-card" onclick="location.href='/Home/Checklist'">
+            <img src="/images/檢驗排程單.png" alt="檢驗排程單" />
+            <h4>檢驗排程單</h4>
+        </div>
+        <div class="icon-card" onclick="location.href='/Home/Personal'">
+            <img src="/images/個人資訊.png" alt="個人資訊" />
+            <h4>個人資訊</h4>
+        </div>
+    </div>
+
+    <!-- Footer with Date and Time -->
+    <div class="footer">
+        <p>@DateTime.Now.ToString("yyyy年MM月dd日 dddd HH:mm:ss")</p>
+    </div>
+</body>
+</html>

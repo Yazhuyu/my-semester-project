@@ -1,0 +1,204 @@
+﻿@{
+    ViewData["Title"] = "個人資訊";
+}
+<!-- 標題 -->
+<div class="header">
+    <h1>@ViewData["Title"]</h1>
+</div>
+
+<!-- Logout Button in Page's Top-Right Corner -->
+<a class="logout-btn" href="/Home/FrontPage">
+    <img src="/images/首頁圖示.png" alt="首頁" style="height: 50px;" />
+</a>
+
+<!-- 顯示個人資訊區域 -->
+<div class="container" id="personalInfoDisplay">
+    <h3>最新個人資訊</h3>
+    <p id="infoContent"></p>
+    <button class="btn btn-secondary" id="editInfoBtn">編輯個人資訊</button>
+</div>
+
+<!-- 編輯表單區域 -->
+<div class="container" id="personalInfoFormContainer" style="display: none;">
+    <form id="personalInfoForm">
+        <!-- 姓名 -->
+        <div class="form-group">
+            <label for="name">姓名:</label>
+            <input type="text" class="form-control" id="name" placeholder="請輸入姓名">
+        </div>
+        <!-- 生日 -->
+        <div class="form-group">
+            <label for="birthdate">生日:</label>
+            <input type="date" class="form-control" id="birthdate">
+        </div>
+        <!-- 性別 -->
+        <div class="form-group">
+            <label for="gender">性別:</label>
+            <select class="form-control" id="gender">
+                <option value="男性">男性</option>
+                <option value="女性">女性</option>
+                <option value="其他">其他</option>
+            </select>
+        </div>
+        <!-- 住址 -->
+        <div class="form-group">
+            <label for="address">住址:</label>
+            <input type="text" class="form-control" id="address" placeholder="請輸入住址">
+        </div>
+        <!-- 郵件 -->
+        <div class="form-group">
+            <label for="email">郵件:</label>
+            <input type="email" class="form-control" id="email" placeholder="請輸入郵件地址">
+        </div>
+        <!-- 連絡電話 -->
+        <div class="form-group">
+            <label for="phone">連絡電話:</label>
+            <input type="tel" class="form-control" id="phone" placeholder="請輸入電話號碼">
+        </div>
+        <!-- 儲存按鈕 -->
+        <button type="button" class="btn btn-primary" id="saveInfoBtn">儲存個人資訊</button>
+    </form>
+</div>
+
+<style>
+    body {
+        background-color: #f0f8f9;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+    }
+
+    .header {
+        background-color: #73bfb8;
+        color: white;
+        padding: 20px;
+        text-align: center;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+    }
+
+    h1 {
+        margin: 0;
+        font-size: 2em;
+    }
+
+    .container {
+        max-width: 600px;
+        margin: 20px auto;
+        background-color: #f9f9f9;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    label {
+        font-weight: bold;
+    }
+
+    #infoContent {
+        line-height: 1.6;
+    }
+
+    .btn-primary {
+        background-color: #73bfb8;
+        border-color: #73bfb8;
+    }
+
+        .btn-primary:hover {
+            background-color: #64a29d;
+            border-color: #64a29d;
+        }
+
+    .btn-secondary {
+        background-color: #427677;
+        border-color: #427677;
+        color: white;
+    }
+
+        .btn-secondary:hover {
+            background-color: #366364;
+            border-color: #366364;
+        }
+
+    .logout-btn {
+        position: absolute;
+        top: 10px;
+        right: 20px; /* 將圖示放置在右上角 */
+    }
+
+</style>
+
+<script>
+    // 初始化頁面時載入並顯示最新的個人資訊
+    window.onload = function () {
+        displayPersonalInfo();
+    };
+
+    // 顯示最新個人資訊的函數
+    function displayPersonalInfo() {
+        var name = localStorage.getItem('name') || "尚未填寫";
+        var birthdate = localStorage.getItem('birthdate') || "尚未填寫";
+        var gender = localStorage.getItem('gender') || "尚未填寫";
+        var address = localStorage.getItem('address') || "尚未填寫";
+        var email = localStorage.getItem('email') || "尚未填寫";
+        var phone = localStorage.getItem('phone') || "尚未填寫";
+
+        var infoContent = `
+                    <strong>姓名:</strong> ${name}<br>
+                    <strong>生日:</strong> ${birthdate}<br>
+                    <strong>性別:</strong> ${gender}<br>
+                    <strong>住址:</strong> ${address}<br>
+                    <strong>郵件:</strong> ${email}<br>
+                    <strong>連絡電話:</strong> ${phone}
+                `;
+        document.getElementById('infoContent').innerHTML = infoContent;
+    }
+
+    // 點擊「編輯個人資訊」按鈕顯示表單並填充已有資訊
+    document.getElementById('editInfoBtn').onclick = function () {
+        document.getElementById('personalInfoDisplay').style.display = 'none';
+        document.getElementById('personalInfoFormContainer').style.display = 'block';
+
+        document.getElementById('name').value = localStorage.getItem('name') || "";
+        document.getElementById('birthdate').value = localStorage.getItem('birthdate') || "";
+        document.getElementById('gender').value = localStorage.getItem('gender') || "";
+        document.getElementById('address').value = localStorage.getItem('address') || "";
+        document.getElementById('email').value = localStorage.getItem('email') || "";
+        document.getElementById('phone').value = localStorage.getItem('phone') || "";
+    };
+
+    // 儲存更新的個人資訊並回到顯示狀態
+    document.getElementById('saveInfoBtn').onclick = function () {
+        var name = document.getElementById('name').value;
+        var birthdate = document.getElementById('birthdate').value;
+        var gender = document.getElementById('gender').value;
+        var address = document.getElementById('address').value;
+        var email = document.getElementById('email').value;
+        var phone = document.getElementById('phone').value;
+
+        if (!name || !birthdate || !gender || !address || !email || !phone) {
+            alert("請填寫所有資訊!");
+            return;
+        }
+
+        // 儲存資料至localStorage
+        localStorage.setItem('name', name);
+        localStorage.setItem('birthdate', birthdate);
+        localStorage.setItem('gender', gender);
+        localStorage.setItem('address', address);
+        localStorage.setItem('email', email);
+        localStorage.setItem('phone', phone);
+
+        alert("個人資訊已更新！");
+
+        // 更新顯示資訊並切換回顯示模式
+        displayPersonalInfo();
+        document.getElementById('personalInfoFormContainer').style.display = 'none';
+        document.getElementById('personalInfoDisplay').style.display = 'block';
+    };
+</script>

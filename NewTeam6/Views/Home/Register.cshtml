@@ -1,0 +1,119 @@
+﻿@{
+    ViewData["Title"] = "註冊帳號";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="~/css/style.css" />
+    <style>
+        /* Custom CSS */
+        .card {
+            background-color: #dcebee;
+            border: 2px solid #dcebee;
+        }
+
+        .custom-label {
+            color: #427677;
+            font-weight: bold;
+        }
+
+        .custom-button {
+            background-color: #427677;
+            color: white;
+            border: none;
+        }
+
+            .custom-button:hover {
+                background-color: #365c5c;
+            }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-4 text-center">
+                <!-- Header -->
+                <div class="header p-2 rounded" style="background-color: #73bfb8; color: white;">
+                    <h2>就醫開單資訊及提醒系統</h2>
+                </div>
+
+                <!-- Registration form -->
+                <div class="card mt-3">
+                    <div class="card-body">
+                        <h4 class="card-title mb-4" style="color: #427677; font-weight: bold;">註冊帳號</h4>
+
+                        <!-- Form start -->
+                        <div class="form-group">
+                            <label for="PatIdno" class="custom-label">身份證字號</label>
+                            <input type="text" class="form-control" id="PatIdno" name="PatIdno" placeholder="請輸入身份證字號" required>
+                        </div>
+
+                        <div class="form-group mt-3">
+                            <label for="PatPassword" class="custom-label">密碼</label>
+                            <input type="password" class="form-control" id="PatPassword" name="PatPassword" placeholder="請輸入密碼" required>
+                        </div>
+
+                        <div class="form-group mt-3">
+                            <label for="ConfirmPassword" class="custom-label">確認密碼</label>
+                            <input type="password" class="form-control" id="ConfirmPassword" name="ConfirmPassword" placeholder="請再次輸入密碼" required>
+                        </div>
+
+                        <button type="button" class="btn custom-button mt-4" id="submitButton" onclick="Submit()">註冊</button>
+
+                        <!-- Login redirect link -->
+                        <p class="mt-3">
+                            <a href="@Url.Action("Index", "Home")" class="btn btn-link" style="color: #4F4F4F;">回登入頁面</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer with date and time -->
+        <div class="text-center mt-3 text-muted">
+            <p>@DateTime.Now.ToString("yyyy年MM月dd日 dddd HH:mm:ss")</p>
+        </div>
+    </div>
+
+    <!-- Add jQuery for AJAX -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        /** 儲存病人資料 */
+        function Submit() {
+            var formData = {
+                PatIdno: document.getElementById("PatIdno").value,
+                PatPassword: document.getElementById("PatPassword").value,
+                ConfirmPassword: document.getElementById("ConfirmPassword").value
+            };
+
+            // 確認密碼是否一致
+            if (formData.PatPassword !== formData.ConfirmPassword) {
+                alert("密碼與確認密碼不一致");
+                return;
+            }
+
+            // 發送新增病人資料的 AJAX 請求
+            $.ajax({
+                url: '@Url.Content("~/Register/Save")', // 確保這裡是正確的 URL 路徑
+                method: 'POST',
+                dataType: 'json',
+                data: formData, // 直接發送 formData
+                success: function (result) {
+                    if (result === "儲存成功") {
+                        alert("註冊成功");
+                        document.getElementById("PatIdno").value = "";
+                        document.getElementById("PatPassword").value = "";
+                        document.getElementById("ConfirmPassword").value = "";
+                    } else {
+                        alert(result.Error || "儲存失敗");
+                    }
+                },
+                error: function (err) {
+                    alert(err.responseText);
+                }
+            });
+        }
+    </script>
+</body>
+</html>

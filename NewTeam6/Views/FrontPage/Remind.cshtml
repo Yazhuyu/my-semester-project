@@ -1,0 +1,106 @@
+﻿@{
+    ViewData["Title"] = "就醫排程提醒";
+}
+
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+    <style>
+        body {
+            background-color: #f0f8f9;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .header {
+            background-color: #73bfb8;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .content {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 20px;
+        }
+
+        .content-wrapper {
+            width: 100%;
+            max-width: 800px; /* 最大寬度 */
+            background-color: #ffffff; /* 白色背景 */
+            padding: 20px;
+            border-radius: 10px; /* 邊框圓角 */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* 陰影 */
+        }
+
+        .footer {
+            background-color: #f0f8f9;
+            color: gray;
+            text-align: center;
+            padding: 10px 0;
+        }
+
+        .logout-btn {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+        }
+    </style>
+</head>
+<body>
+    <a class="logout-btn" href="/Home/FrontPage">
+        <img src="/images/首頁圖示.png" alt="首頁" style="height: 50px;" />
+    </a>
+    <div class="header">
+        <h1>@ViewData["Title"]</h1>
+    </div>
+
+    <div class="content">
+        <div class="content-wrapper">
+            <h2>排程提醒列表</h2>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>日期</th>
+                        <th>科別</th>
+                        <th>項目</th>
+                        <th>提醒</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>2024-11-01</td>
+                        <td>放射科</td>
+                        <td>X光檢查</td>
+                        <td>請準時回診拍攝。</td>
+                    </tr>
+                    <tr>
+                        <td>2024-11-05</td>
+                        <td>心臟科</td>
+                        <td>心電圖檢查</td>
+                        <td>檢查前請勿進食。</td>
+                    </tr>
+                    <tr>
+                        <td>2024-11-10</td>
+                        <td>內科</td>
+                        <td>血液檢查</td>
+                        <td>請空腹來院。</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>@DateTime.Now.ToString("yyyy年MM月dd日 dddd HH:mm:ss")</p>
+    </div>
+</body>
+</html>
